@@ -39,7 +39,7 @@ func (c *HTTPClient) AllPrematchOdds(ctx context.Context, includes []string, fil
 }
 
 func (c *HTTPClient) PrematchOddsByFixtureID(ctx context.Context, id int, includes []string, filters map[string][]int, page int) ([]PrematchOdds, *ResponseDetails, error) {
-	path := prematchOddsURI + "/" + strconv.Itoa(id)
+	path := prematchOddsURIByFixtureID + "/" + strconv.Itoa(id)
 
 	return multipleOddsResponse(ctx, c, path, includes, filters, page)
 }
