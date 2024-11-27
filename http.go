@@ -36,6 +36,10 @@ const (
 	tvStationsURI          = "/football/tv-stations/fixtures"
 	venuesURI              = "/football/venues"
 	venuesSeasonURI        = "/football/venues/seasons"
+	fixturesLatestURI	  = "/football/fixtures/latest"
+	prematchOddsURI = "/football/odds/pre-match"
+	prematchOddsURIByFixtureID = "/football/odds/pre-match/fixtures"
+	lastUpdatedOddsURI = "/football/odds/pre-match/latest"
 )
 
 // HTTPClient is a HTTP request builder and sender.

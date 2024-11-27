@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -78,46 +79,54 @@ func (c *HTTPClient) FixtureByID(ctx context.Context, id int, includes []string,
 }
 
 // FixturesByID fetches multiple Fixture resources by their IDS. Use the includes slice of string to enrich the response data.
-func (c *HTTPClient) FixturesByID(ctx context.Context, ids []int, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
+func (c *HTTPClient) FixturesByID(ctx context.Context, ids []int, includes []string, filters map[string][]int, page int) ([]Fixture, *ResponseDetails, error) {
 	str := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(ids)), ","), "[]")
 
 	path := fmt.Sprintf(fixturesMultiURI+"/%s", str)
 
-	return multipleFixtureResponse(ctx, c, path, includes, filters)
+	return multipleFixtureResponse(ctx, c, path, includes, filters, page)
 }
 
 // FixturesByDate fetches multiple Fixture resources for a given date. Use the includes slice of string to enrich the response data.
-func (c *HTTPClient) FixturesByDate(ctx context.Context, date time.Time, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
+func (c *HTTPClient) FixturesByDate(ctx context.Context, date time.Time, includes []string, filters map[string][]int, page int) ([]Fixture, *ResponseDetails, error) {
 	path := fmt.Sprintf(fixturesDateURI + "/" + date.Format(dateFormat))
 
-	return multipleFixtureResponse(ctx, c, path, includes, filters)
+	return multipleFixtureResponse(ctx, c, path, includes, filters, page)
 }
 
 // FixturesBetween fetches multiple Fixture resources for between two dates. Use the includes slice of string to enrich the response data.
-func (c *HTTPClient) FixturesBetween(ctx context.Context, from, to time.Time, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
+func (c *HTTPClient) FixturesBetween(ctx context.Context, from, to time.Time, includes []string, filters map[string][]int, page int) ([]Fixture, *ResponseDetails, error) {
 	path := fmt.Sprintf(fixturesBetweenURI+"/%s/%s", from.Format(dateFormat), to.Format(dateFormat))
 
-	return multipleFixtureResponse(ctx, c, path, includes, filters)
+	return multipleFixtureResponse(ctx, c, path, includes, filters, page)
 }
 
 // FixturesBetweenForTeam fetches multiple Fixture resources for between two dates for a given team ID. Use the includes slice of string
 // to enrich the response data.
-func (c *HTTPClient) FixturesBetweenForTeam(ctx context.Context, from, to time.Time, teamID int, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
+func (c *HTTPClient) FixturesBetweenForTeam(ctx context.Context, from, to time.Time, page, teamID int, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
 	path := fmt.Sprintf(fixturesBetweenURI+"/%s/%s/%d", from.Format(dateFormat), to.Format(dateFormat), teamID)
 
-	return multipleFixtureResponse(ctx, c, path, includes, filters)
+	return multipleFixtureResponse(ctx, c, path, includes, filters, page)
 }
 
 // HeadToHead fetches multiple Fixture resources of results between two teams. Use the includes slice of string to enrich
 // the response data.
-func (c *HTTPClient) HeadToHead(ctx context.Context, idOne, idTwo int, includes []string) ([]Fixture, *ResponseDetails, error) {
+func (c *HTTPClient) HeadToHead(ctx context.Context, idOne, idTwo int, includes []string, page int) ([]Fixture, *ResponseDetails, error) {
 	path := fmt.Sprintf(headToHeadURI+"/%d/%d", idOne, idTwo)
 
-	return multipleFixtureResponse(ctx, c, path, includes, map[string][]int{})
+	return multipleFixtureResponse(ctx, c, path, includes, map[string][]int{}, page)
 }
 
-func multipleFixtureResponse(ctx context.Context, client *HTTPClient, path string, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
+func (c *HTTPClient) LatestUpdatedFixtures(ctx context.Context, includes []string, filters map[string][]int) ([]Fixture, *ResponseDetails, error) {
+	path := fixturesLatestURI
+	
+	return multipleFixtureResponse(ctx, c, path, includes, filters, 1)
+}
+
+func multipleFixtureResponse(ctx context.Context, client *HTTPClient, path string, includes []string, filters map[string][]int, page int) ([]Fixture, *ResponseDetails, error) {
+	
 	values := url.Values{
+		"page":    {strconv.Itoa(page)},
 		"include": {strings.Join(includes, ";")},
 	}
 

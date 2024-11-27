@@ -262,6 +262,7 @@ func TestFixturesByID(t *testing.T) {
 			[]int{11867285, 555},
 			[]string{},
 			map[string][]int{},
+			1,
 		)
 
 		if err != nil {
@@ -283,6 +284,7 @@ func TestFixturesByID(t *testing.T) {
 			[]int{11867285, 555},
 			[]string{"round", "stage", "goals"},
 			map[string][]int{},
+			1,
 		)
 
 		if err != nil {
@@ -310,6 +312,7 @@ func TestFixturesByID(t *testing.T) {
 					10,
 				},
 			},
+			1,
 		)
 
 		if err != nil {
@@ -327,7 +330,7 @@ func TestFixturesByID(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		fixtures, _, err := client.FixturesByID(context.Background(), []int{11867285, 555}, []string{}, map[string][]int{})
+		fixtures, _, err := client.FixturesByID(context.Background(), []int{11867285, 555}, []string{}, map[string][]int{},1)
 
 		if fixtures != nil {
 			t.Fatalf("Test failed, expected nil, got %+v", fixtures)
@@ -348,6 +351,7 @@ func TestFixturesByID(t *testing.T) {
 			[]int{11867285, 555},
 			[]string{},
 			map[string][]int{},
+			1,
 		)
 
 		assertResponseDetails(t, details, "Fixture")
@@ -369,7 +373,7 @@ func TestFixturesByDate(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		fixtures, _, err := client.FixturesByDate(context.Background(), d, []string{}, map[string][]int{})
+		fixtures, _, err := client.FixturesByDate(context.Background(), d, []string{}, map[string][]int{},1)
 
 		if err != nil {
 			t.Fatalf("Test failed, expected nil, got %s", err.Error())
@@ -390,6 +394,7 @@ func TestFixturesByDate(t *testing.T) {
 			d,
 			[]string{"round", "stage", "goals"},
 			map[string][]int{},
+			1,
 		)
 
 		if err != nil {
@@ -417,6 +422,7 @@ func TestFixturesByDate(t *testing.T) {
 					10,
 				},
 			},
+			1,
 		)
 
 		if err != nil {
@@ -434,7 +440,7 @@ func TestFixturesByDate(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		fixtures, _, err := client.FixturesByDate(context.Background(), d, []string{}, map[string][]int{})
+		fixtures, _, err := client.FixturesByDate(context.Background(), d, []string{}, map[string][]int{},1)
 
 		if fixtures != nil {
 			t.Fatalf("Test failed, expected nil, got %+v", fixtures)
@@ -450,7 +456,7 @@ func TestFixturesByDate(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		_, details, _ := client.FixturesByDate(context.Background(), d, []string{}, map[string][]int{})
+		_, details, _ := client.FixturesByDate(context.Background(), d, []string{}, map[string][]int{},1)
 
 		assertResponseDetails(t, details, "Fixture")
 	})
@@ -476,7 +482,7 @@ func TestFixturesBetween(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		fixtures, _, err := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{})
+		fixtures, _, err := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{},1)
 
 		if err != nil {
 			t.Fatalf("Test failed, expected nil, got %s", err.Error())
@@ -498,6 +504,7 @@ func TestFixturesBetween(t *testing.T) {
 			dateTo,
 			[]string{"round", "stage", "goals"},
 			map[string][]int{},
+			1,
 		)
 
 		if err != nil {
@@ -526,6 +533,7 @@ func TestFixturesBetween(t *testing.T) {
 					10,
 				},
 			},
+			1,
 		)
 
 		if err != nil {
@@ -543,7 +551,7 @@ func TestFixturesBetween(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		fixtures, _, err := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{})
+		fixtures, _, err := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{},1,)
 
 		if fixtures != nil {
 			t.Fatalf("Test failed, expected nil, got %+v", fixtures)
@@ -559,7 +567,7 @@ func TestFixturesBetween(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		_, details, _ := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{})
+		_, details, _ := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{},1,)
 
 		assertResponseDetails(t, details, "Fixture")
 	})
@@ -590,6 +598,7 @@ func TestFixturesBetweenForTeam(t *testing.T) {
 			dateFrom,
 			dateTo,
 			1,
+			1,
 			[]string{},
 			map[string][]int{},
 		)
@@ -612,6 +621,7 @@ func TestFixturesBetweenForTeam(t *testing.T) {
 			context.Background(),
 			dateFrom,
 			dateTo,
+			1,
 			1,
 			[]string{"round", "stage", "goals"},
 			map[string][]int{},
@@ -636,6 +646,7 @@ func TestFixturesBetweenForTeam(t *testing.T) {
 			context.Background(),
 			dateFrom,
 			dateTo,
+			1,
 			1,
 			[]string{"round", "stage", "goals:order(starting_at|asc)"},
 			map[string][]int{
@@ -666,6 +677,7 @@ func TestFixturesBetweenForTeam(t *testing.T) {
 			dateFrom,
 			dateTo,
 			1,
+			1,
 			[]string{},
 			map[string][]int{},
 		)
@@ -684,7 +696,7 @@ func TestFixturesBetweenForTeam(t *testing.T) {
 
 		client := newTestHTTPClient(server)
 
-		_, details, _ := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{})
+		_, details, _ := client.FixturesBetween(context.Background(), dateFrom, dateTo, []string{}, map[string][]int{},1,)
 
 		assertResponseDetails(t, details, "Fixture")
 	})
