@@ -1,4 +1,4 @@
-module github.com/statistico/statistico-sportmonks-go-client
+module github.com/srodrichu/statistico-sportmonks-go-client
 
 go 1.22
 
