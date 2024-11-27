@@ -50,6 +50,12 @@ func (c *HTTPClient) PrematchOddsByFixtureIDAndBookmakerID(ctx context.Context, 
 	return multipleOddsResponse(ctx, c, path, includes, filters, page)
 }
 
+func (c *HTTPClient) PrematchOddsByFixtureIDAndMarketID(ctx context.Context, fixtureID, marketID int, includes []string, filters map[string][]int, page int) ([]PrematchOdds, *ResponseDetails, error) {
+	path := prematchOddsURIByFixtureID + "/" + strconv.Itoa(fixtureID) + "/markets/" +  strconv.Itoa(marketID)
+
+	return multipleOddsResponse(ctx, c, path, includes, filters, page)
+}
+
 func (c *HTTPClient) LatestOdds(ctx context.Context, includes []string, filters map[string][]int) ([]PrematchOdds, *ResponseDetails, error) {
 	path := lastUpdatedOddsURI
 
