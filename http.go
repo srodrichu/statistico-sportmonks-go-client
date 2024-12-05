@@ -11,35 +11,35 @@ import (
 )
 
 const (
-	defaultBaseURL         = "https://api.sportmonks.com/v3"
-	coachesURI             = "/football/coaches"
-	commentariesFixtureURI = "/commentaries/fixture"
-	continentsURI          = "/core/continents"
-	countriesURI           = "/core/countries"
-	fixturesURI            = "/football/fixtures"
-	fixturesDateURI        = "/football/fixtures/date"
-	fixturesBetweenURI     = "/football/fixtures/between"
-	fixturesMultiURI       = "/football/fixtures/multi"
-	headToHeadURI          = "/football/fixtures/head-to-head"
-	leaguesURI             = "/football/leagues"
-	playersURI             = "/football/players"
-	roundsURI              = "/football/rounds"
-	roundsSeasonURI        = "/football/rounds/seasons"
-	seasonsURI             = "/football/seasons"
-	stagesURI              = "/football/stages"
-	stagesSeasonURI        = "/football/stages/seasons"
-	teamSquadURI           = "/football/squads/teams"
-	teamSeasonSquadURI     = "/football/squads/seasons"
-	teamsURI               = "/football/teams"
-	teamsSeasonURI         = "/football/teams/seasons"
-	topScorersSeasonURI    = "/football/topscorers/seasons"
-	tvStationsURI          = "/football/tv-stations/fixtures"
-	venuesURI              = "/football/venues"
-	venuesSeasonURI        = "/football/venues/seasons"
-	fixturesLatestURI	  = "/football/fixtures/latest"
-	prematchOddsURI = "/football/odds/pre-match"
+	defaultBaseURL             = "https://api.sportmonks.com/v3"
+	coachesURI                 = "/football/coaches"
+	commentariesFixtureURI     = "/commentaries/fixture"
+	continentsURI              = "/core/continents"
+	countriesURI               = "/core/countries"
+	fixturesURI                = "/football/fixtures"
+	fixturesDateURI            = "/football/fixtures/date"
+	fixturesBetweenURI         = "/football/fixtures/between"
+	fixturesMultiURI           = "/football/fixtures/multi"
+	headToHeadURI              = "/football/fixtures/head-to-head"
+	leaguesURI                 = "/football/leagues"
+	playersURI                 = "/football/players"
+	roundsURI                  = "/football/rounds"
+	roundsSeasonURI            = "/football/rounds/seasons"
+	seasonsURI                 = "/football/seasons"
+	stagesURI                  = "/football/stages"
+	stagesSeasonURI            = "/football/stages/seasons"
+	teamSquadURI               = "/football/squads/teams"
+	teamSeasonSquadURI         = "/football/squads/seasons"
+	teamsURI                   = "/football/teams"
+	teamsSeasonURI             = "/football/teams/seasons"
+	topScorersSeasonURI        = "/football/topscorers/seasons"
+	tvStationsURI              = "/football/tv-stations/fixtures"
+	venuesURI                  = "/football/venues"
+	venuesSeasonURI            = "/football/venues/seasons"
+	fixturesLatestURI          = "/football/fixtures/latest"
+	prematchOddsURI            = "/football/odds/pre-match"
 	prematchOddsURIByFixtureID = "/football/odds/pre-match/fixtures"
-	lastUpdatedOddsURI = "/football/odds/pre-match/latest"
+	lastUpdatedOddsURI         = "/football/odds/pre-match/latest"
 )
 
 // HTTPClient is a HTTP request builder and sender.
@@ -113,7 +113,7 @@ func checkStatusCode(resp *http.Response) error {
 
 		return err
 	}
-	
+
 	if resp.StatusCode != http.StatusOK {
 		err := new(ErrBadStatusCode)
 
@@ -138,7 +138,10 @@ func parseJSONResponseBody(body io.ReadCloser, response interface{}) error {
 }
 
 func formatFilters(query *url.Values, filters map[string][]int) {
+	key := "filters"
+	var value string
 	for k, v := range filters {
-		query.Set(k, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v)), ","), "[]"))
+		value = k + ":" + strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v)), ","), "[]")
 	}
+	query.Set(key, value)
 }

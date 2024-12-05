@@ -11,7 +11,7 @@ type (
 	}
 
 	Subscription struct {
-		Meta  []Meta   `json:"meta"`
+		Meta  []Meta `json:"meta"`
 		Plans []Plan `json:"plans"`
 	}
 
