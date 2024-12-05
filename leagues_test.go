@@ -282,9 +282,9 @@ func assertLeague(t *testing.T, league *League) {
 }
 
 func assertSubscription(t *testing.T, sub Subscription) {
-	assert.Nil(t, sub.Meta.TrialEndsAt)
-	assert.Equal(t, "2024-10-26 12:06:34", sub.Meta.EndsAt)
-	assert.Equal(t, int64(1728317818), sub.Meta.CurrentTimestamp)
+	assert.Nil(t, sub.Meta[0].TrialEndsAt)
+	assert.Equal(t, "2024-10-26 12:06:34", sub.Meta[0].EndsAt)
+	assert.Equal(t, int64(1728317818), sub.Meta[0].CurrentTimestamp)
 
 	assert.Equal(t, 1, len(sub.Plans))
 	assert.Equal(t, "Joe Sweeny Custom Plan", sub.Plans[0].Plan)

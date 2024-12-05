@@ -399,9 +399,9 @@ func assertResponseDetails(t *testing.T, d *ResponseDetails, entity string) {
 
 	s := d.Subscription[0]
 
-	assert.Nil(t, s.Meta.TrialEndsAt)
-	assert.Equal(t, "2024-10-26 12:06:34", s.Meta.EndsAt)
-	assert.Equal(t, int64(1728372666), s.Meta.CurrentTimestamp)
+	assert.Nil(t, s.Meta[0].TrialEndsAt)
+	assert.Equal(t, "2024-10-26 12:06:34", s.Meta[0].EndsAt)
+	assert.Equal(t, int64(1728372666), s.Meta[0].CurrentTimestamp)
 
 	assert.Equal(t, 1, len(s.Plans))
 	assert.Equal(t, "Joe Sweeny Custom Plan", s.Plans[0].Plan)
