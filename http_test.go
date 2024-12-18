@@ -3,10 +3,12 @@ package sportmonks
 import (
 	"bytes"
 	"context"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var errorResponse = `{
@@ -73,7 +75,52 @@ func TestNewHTTPClient(t *testing.T) {
 		)
 	})
 }
+func TestFormatFilters(t *testing.T) {
+	t.Run("formats single filter correctly", func(t *testing.T) {
+		query := &url.Values{}
+		filters := map[string][]int{
+			"team_id": {1, 2, 3},
+		}
 
+		formatFilters(query, filters)
+
+		expected := "team_id:1,2,3"
+		assert.Equal(t, expected, query.Get("filters"))
+	})
+
+	t.Run("formats multiple filters correctly", func(t *testing.T) {
+		query := &url.Values{}
+		filters := map[string][]int{
+			"team_id":  {1, 2, 3},
+			"player_id": {4, 5, 6},
+		}
+
+		formatFilters(query, filters)
+
+		expected := "team_id:1,2,3;player_id:4,5,6"
+		assert.Equal(t, expected, query.Get("filters"))
+	})
+
+	t.Run("handles empty filters map", func(t *testing.T) {
+		query := &url.Values{}
+		filters := map[string][]int{}
+
+		formatFilters(query, filters)
+
+		expected := ""
+		assert.Equal(t, expected, query.Get("filters"))
+	})
+
+	t.Run("handles nil filters map", func(t *testing.T) {
+		query := &url.Values{}
+		var filters map[string][]int
+
+		formatFilters(query, filters)
+
+		expected := ""
+		assert.Equal(t, expected, query.Get("filters"))
+	})
+}
 func assertError(t *testing.T, err error) {
 	assert.Equal(
 		t,

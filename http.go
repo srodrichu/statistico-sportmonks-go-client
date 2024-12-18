@@ -139,9 +139,10 @@ func parseJSONResponseBody(body io.ReadCloser, response interface{}) error {
 
 func formatFilters(query *url.Values, filters map[string][]int) {
 	key := "filters"
-	var value string
+	var values []string
 	for k, v := range filters {
-		value = k + ":" + strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v)), ","), "[]")
+		value := k + ":" + strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v)), ","), "[]")
+		values = append(values, value)
 	}
-	query.Set(key, value)
+	query.Set(key, strings.Join(values, ";"))
 }
